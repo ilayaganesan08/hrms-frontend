@@ -64,7 +64,9 @@ const ViewTax = () => {
 
                             <div className="col-lg-2"><span className='view-key'>Status</span></div>
                             <div className="col-lg-1"><span className='view-key'>:</span></div>
-                            <div className="col-lg-9"><span className='view-value'>{data.paymentstatus== false? "Due": data.paymentstatus == true? "Paid": "---"}</span></div>
+                            <div className="col-lg-9"><span className='view-value'>{data.paymentstatus ? data.paymentstatus : "---"}</span></div>
+                            
+                            {/* <div className="col-lg-9"><span className='view-value'>{data.paymentstatus== "Paid"? "Due": data.paymentstatus == "Due"? "Paid": "---"}</span></div> */}
                         </div>
                     </div>
 

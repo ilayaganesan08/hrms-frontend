@@ -26,7 +26,7 @@ const AddAndEditTax = () => {
         taxtypeInputRef: null,
         taxableamountInputRef: null,
         taxrateInputRef: null,
-        totaltaxInputRef: null,
+        // totaltaxInputRef: null,
         fillingdateInputRef: null,
         paymentstatusInputRef: null,
         
@@ -51,12 +51,12 @@ const AddAndEditTax = () => {
         }
     }, [id]);
 
-    useEffect(() =>{
-        if (data.taxableamount && data.taxrate){
-            const calTotalTax = (parseFloat(data.taxableamount) * parseFloat(data.taxrate)) /100;
-            handleInptChangeTax('totaltax', calTotalTax.toFixed(2));
-        }
-    },[data.taxableamount, data.taxrate]);
+    // useEffect(() =>{
+    //     if (data.taxableamount && data.taxrate){
+    //         const calTotalTax = (parseFloat(data.taxableamount) * parseFloat(data.taxrate)) /100;
+    //         handleInptChangeTax('totaltax', calTotalTax.toFixed(2));
+    //     }
+    // },[data.taxableamount, data.taxrate]);
 
     const onChange = (e) => {
         const { name, value } = e.target;
@@ -70,7 +70,7 @@ const AddAndEditTax = () => {
         let valid = 1;
         let focusField = null;
         const checkerrors = {};
-        const checkfields = ['taxid', 'taxtype', 'taxableamount', 'taxrate', 'totaltax', 'fillingdate', 'paymentstatus'];
+        const checkfields = ['taxid', 'taxtype', 'taxableamount', 'taxrate', 'fillingdate', 'paymentstatus'];
         checkfields.forEach(item => {
             if (!newData[item]) {
                 valid = 0;
@@ -87,8 +87,11 @@ const AddAndEditTax = () => {
             setSaveSpinner(true);
             Success('Saved successfully');
             navigate('/list-tax');
-            axios.post(ImportedURL.API.addtax, newData)
+            const url = id ? `${ImportedURL.API.updatetax}/${id}` : ImportedURL.API.addtax
+            console.log(newData.paymentstatus)
+            axios.post(url, newData)
                 .then((res) => {
+                    console.log("edited",res.data)
                     const { message } = res.data || {};
                     Success(message);
                     setSaveSpinner(false);
@@ -134,11 +137,11 @@ const AddAndEditTax = () => {
                                         <input type="number" className={`form-control ${errors.taxrateError ? 'is-invalid' : ''}`} placeholder="Tax Rate" name='taxrate' value={data.taxrate || ''} onChange={onChange} ref={(el) => inputRefs.current.taxrateInputRef = el} />
                                         <div className="invalid-feedback" style={{ display: errors.taxrateError ? "block" : 'none' }}>Tax Rate Amount is required</div>
                                     </div>
-                                    <div className="col-6">
+                                   {/* <div className="col-6">
                                         <label className="form-label">Total Tax<span className="required-label">*</span></label>
                                         <input type="number" className="form-control" placeholder="Total Tax" name='totaltax' value={data.totaltax || ''} onChange={onChange} ref={(el) => inputRefs.current.totaltaxInputRef = el} />
-                                        {/* <div className="invalid-feedback" style={{ display: errors.totaltaxError ? "block" : 'none' }}>Total Tax is required</div> */}
-                                    </div>
+                                         <div className="invalid-feedback" style={{ display: errors.totaltaxError ? "block" : 'none' }}>Total Tax is required</div>
+                                    </div>*/}
                                     <div className="col-6">
                                         <label className="form-label">Filling Date<span className="required-label">*</span></label>
                                         <input type="date" className={`form-control ${errors.fillingdateError ? 'is-invalid' : ''}`} placeholder="Filling Date" name='fillingdate' value={data.fillingdate || ''} onChange={onChange} ref={(el) => inputRefs.current.fillingdateInputRef = el} />
@@ -148,8 +151,8 @@ const AddAndEditTax = () => {
                                         <label className="form-label">Status<span className="required-label">*</span></label>
                                         <select className={`form-control ${errors.paymentstatusError ? 'is-invalid' : ''}`} placeholder="Status" name='paymentstatus' value={data.paymentstatus || ''} onChange={onChange} ref={(el) => inputRefs.current.paymentstatusInputRef = el} >
                                             <option value="" disabled>Select Status</option>
-                                            <option value="true">Paid</option>
-                                            <option value="false">Due</option>
+                                            <option value="paid">Paid</option>
+                                            <option value="due">Due</option>
                                         </select>
                                         <div className="invalid-feedback" style={{ display: errors.paymentstatusError ? "block" : 'none' }}>status is required</div>
                                     </div>

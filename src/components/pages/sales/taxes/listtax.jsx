@@ -16,7 +16,7 @@ const ListTax = () => {
     const navigate = useNavigate();
     const gridApiRef = useRef(null);
     const spinner =  false;
-    const { listTax, getTax } = useTax();
+    const { listTax, getTax, updatetax } = useTax();
     const rowData = listTax || [];
 
     const [perPage, setPerPage] = useState(25);
@@ -53,25 +53,40 @@ const ListTax = () => {
     };
 
     const onRowClicked = async (event) => {
-        const { _id, paymentstatus } = event.data;
+        const { _id, paymentstatus} = event.data;
         const value = event.event.target.getAttribute('data-action-type');
+        console.log(value,"------event action----");
         if (value === 'View') {
-            navigate('/view-tax/' + _id);
+            navigate(`/view-tax/${_id}`);
         }
         if (value === 'Edit') {
-            navigate('/edit-tax/' + _id);
+            navigate(`/edit-tax/${_id}`);
         }
         if (value === 'Status') {
+            // const {paymentstatus} = event.data;
+
             SwalDialog({ title: "Are you sure you want to Change?", confirmButtonText: "Yes", cancelButtonText: "No" }).then((result) => {
+                console.log(result,"Swal Result");
+             console.log(event.data,"------alert-------")
                 if (result.isConfirmed) {
+                    // const {paymentstatus} =event.data;
+
+                    const newStatus = paymentstatus === "paid" ? "due" : "paid";
+                    // const updatedData = { ...event.data, paymentstatus:newStatus}
+                    // console.log(updatedData,"updatedData");
+                    console.log(newStatus,"paymentstatus");
+
+
                     Success('Saved!');
                     setListSpinner(true);
-                    axios.post(ImportedURL.API.statuschange, { id: _id, paymentstatus: !paymentstatus, model: "tax" })
+                    axios.post(`${ImportedURL.API.updatetax}/${_id}`, { id: _id,paymentstatus: newStatus, model: "tax" })
                         .then((res) => {
+                            console.log("Update Response:", res.data);
                             const { message } = res.data ? res.data : {};
                             Success(message);
                             setListSpinner(false);
                             onFetchData();
+                            console.log("Updated listTax:", listTax); 
                         }).catch(({ response }) => {
                             const { message } = response.data ? response.data : {}
                             Error(message);
