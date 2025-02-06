@@ -51,7 +51,8 @@ export const taxcolumnDefs = [
     {
         headerName: "Status", field: "status", sortable: false, filter: false,
         cellRenderer: function (params) {
-            if (params.data && params.data.paymentstatus) {
+            console.log(params,"from config")
+            if (params.data && params.data.paymentstatus=== "paid") {
                 return <div className='text-center'><button type="button" class="btn btn-success btn-sm" data-action-type="Status">Paid</button></div>;
             } else {
                 return <div className='text-center'><button type="button" class="btn btn-danger btn-sm" data-action-type="Status">Due</button></div>;

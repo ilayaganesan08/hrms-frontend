@@ -34,14 +34,14 @@ const ListTax = () => {
     const [columnDefs] = useState(taxcolumnDefs);
 
     const onFetchData = (query = {}) => {
-        const formData = {
-            perPage: perPage,
-            currentPage: currentPage,
-            filter: filter,
-            ...query
-        }
+        // const formData = {
+        //     perPage: perPage,
+        //     currentPage: currentPage,
+        //     filter: filter,
+        //     ...query
+        // }
         // dispatch(spinnertax());
-        getTax(formData);
+        getTax();
     }
 
     useEffect(() => {
@@ -53,6 +53,7 @@ const ListTax = () => {
     };
 
     const onRowClicked = async (event) => {
+        console.log(event.data,"data")
         const { _id, paymentstatus} = event.data;
         const value = event.event.target.getAttribute('data-action-type');
         console.log(value,"------event action----");
@@ -72,20 +73,21 @@ const ListTax = () => {
                     // const {paymentstatus} =event.data;
 
                     const newStatus = paymentstatus === "paid" ? "due" : "paid";
-                    // const updatedData = { ...event.data, paymentstatus:newStatus}
+                    console.log(newStatus,"newStatus");
+                     const updatedData = { ...event.data, paymentstatus:newStatus}
                     // console.log(updatedData,"updatedData");
-                    console.log(newStatus,"paymentstatus");
+                    console.log(updatedData,"paymentstatus");
 
 
                     Success('Saved!');
                     setListSpinner(true);
-                    axios.post(`${ImportedURL.API.updatetax}/${_id}`, { id: _id,paymentstatus: newStatus, model: "tax" })
+                    axios.post(`${ImportedURL.API.updatetax}/${_id}`, updatedData)
                         .then((res) => {
                             console.log("Update Response:", res.data);
                             const { message } = res.data ? res.data : {};
                             Success(message);
                             setListSpinner(false);
-                            onFetchData();
+                            getTax()
                             console.log("Updated listTax:", listTax); 
                         }).catch(({ response }) => {
                             const { message } = response.data ? response.data : {}

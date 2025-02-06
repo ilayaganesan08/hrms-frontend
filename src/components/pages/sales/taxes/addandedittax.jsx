@@ -12,7 +12,7 @@ import { useTax } from '../../../../utils/context/taxcontext';
 
 const AddAndEditTax = () => {
     const { id } = useParams();
-    const { tax, viewTax, resetTax, handleInptChangeTax } = useTax();
+    const { tax, viewTax, resetTax, handleInptChangeTax,getTax } = useTax();
     const navigate = useNavigate();
     // const faqReducer = useSelector(state => state.faq); // Update state selector
     const data = tax || {};
@@ -88,13 +88,14 @@ const AddAndEditTax = () => {
             Success('Saved successfully');
             navigate('/list-tax');
             const url = id ? `${ImportedURL.API.updatetax}/${id}` : ImportedURL.API.addtax
-            console.log(newData.paymentstatus)
+            console.log(newData,"newData")
             axios.post(url, newData)
                 .then((res) => {
                     console.log("edited",res.data)
                     const { message } = res.data || {};
                     Success(message);
                     setSaveSpinner(false);
+                     getTax();
                     navigate('/list-tax');
                 })
                 .catch((error) => {
@@ -104,6 +105,8 @@ const AddAndEditTax = () => {
                     setSaveSpinner(false);
                 });
         }
+
+        
     }
 
 
@@ -119,7 +122,7 @@ const AddAndEditTax = () => {
                                 <form className="row g-3">
                                     <div className="col-6">
                                         <label className="form-label">Tax Id<span className="required-label">*</span></label>
-                                        <input type="text" className={`form-control ${errors.taxidError ? 'is-invalid' : ''}`} placeholder="Tax Id" name='taxid' value={data.taxid || ''} onChange={onChange} ref={(el) => inputRefs.current.taxidInputRef = el} />
+                                        <input type="text" className={`form-control ${errors.taxidError ? 'is-invalid' : ''}`} placeholder="Tax Id" name='taxid' value={data.taxid || ''} onChange={onChange}  />
                                         <div className="invalid-feedback" style={{ display: errors.taxidError ? "block" : 'none' }}>Tax id is required</div>
                                     </div>
                                     <div className="col-6">
