@@ -37,6 +37,14 @@ const Sidebar = () => {
                         "active": ["/list-testimonial", "/add-testimonial", "/edit-testimonial", "/view-testimonial"],
                         "to": "/list-testimonial"
                     },
+
+                    {
+                        "id": unique++,
+                        "label": "Employee Salary",
+                        "active": ["/list-employeesalary", "/add-employeesalary", "/edit-employeesalary", "/view-employeesalary"],
+                        "to": "/list-employeesalary"
+                    },
+                   
                 ]
             },
           
@@ -54,7 +62,7 @@ const Sidebar = () => {
                     },
                 ]
             }
-            
+
         )
 
         return content;
@@ -69,7 +77,9 @@ const Sidebar = () => {
                         content.map((item, i) => {
                             let active = item.active ? item.active.includes(pathSegment) : false;
                             if (item.subContent && item.subContent.length > 0) {
-                                let collapseActive = item.subContent.some((e) => (e.active.includes(pathSegment)));
+                                // let collapseActive = item.subContent.some((e) => (e.active.includes(pathSegment)));
+                                let collapseActive = item.subContent.some((e) => Array.isArray(e.active) && e.active.includes(pathSegment));
+
                                 return (
                                     <li className="nav-item" key={i}>
                                         <a className={`nav-link ${collapseActive ? 'active' : 'collapsed'}`} data-bs-target={`#components-nav-${i}`} data-bs-toggle="collapse" href="#">

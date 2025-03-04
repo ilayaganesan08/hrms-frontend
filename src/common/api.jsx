@@ -11,11 +11,20 @@ const API = {
     viewtax: ROOTURL + 'taxes/viewtax',
     updatetax: ROOTURL + 'taxes/updatetax',
 
-
+    addemployeesalary: ROOTURL + 'employeesalary/addemployeesalary',
+    listemployeesalary: ROOTURL + 'employeesalary/listemployeesalary',
+    viewemployeesalary: ROOTURL + 'employeesalary/viewemployeesalary',
+    updateemployeesalary: ROOTURL + 'employeesalary/updateemployeesalary',
+    getPayrollItems: ROOTURL + 'payroll/items'
 }
 
+// const API_EMPSALARY = {
+   
+
+// }
 
 const ImportedURL = {
+    // API_EMPSALARY: API_EMPSALARY,
     API: API,
     LIVEURL: LIVEURL,
     ROOTURL: ROOTURL,

@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+// import ListEmployeesalary from '../pages/setup/payroll/employeesalary/listemployeesalary';
 
 const Dashboard = lazy(() => import('../pages/dashboard'));
 
@@ -14,6 +15,10 @@ const ViewTestimonial = lazy(() => import('../pages/setup/testimonial/viewtestim
 const ListTax = lazy(() => import('../pages/sales/taxes/listtax'));
 const AddTax = lazy(() => import('../pages/sales/taxes/addandedittax'));
 const ViewTax = lazy(() => import('../pages/sales/taxes/viewtax'));
+
+const ListEmployeesalary = lazy(() => import('../pages/setup/payroll/employeesalary/listemployeesalary'));
+const AddEmployeesalary = lazy(() => import('../pages/setup/payroll/employeesalary/addandeditemployeesalary'));
+const ViewEmployeesalary = lazy(() => import('../pages/setup/payroll/employeesalary/viewemployeesalary'));
 
 
 
@@ -88,6 +93,29 @@ export const routesData = () => {
             path: "/view-tax/:id",
             pageTitle: "View Tax",
             component: <ViewTax/>
+        },
+
+        //Employeesalary
+
+        {
+            path: "/list-employeesalary",
+            pageTitle: "List Employeesalary",
+            component: <ListEmployeesalary />
+        },
+        {
+            path: "/add-employeesalary",
+            pageTitle: "Add Employeesalary",
+            component: <AddEmployeesalary />
+        },
+        {
+            path: "/edit-employeesalary/:id",
+            pageTitle: "Edit Employeesalary",
+            component: <AddEmployeesalary />
+        },
+        {
+            path: "/view-employeesalary/:id",
+            pageTitle: "View Employeesalary",
+            component: <ViewEmployeesalary/>
         },
         
 
